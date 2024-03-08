@@ -1,0 +1,32 @@
+{
+  "name": "lab1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npm-watch",
+    "start": "node  bai3.js"
+  },
+  "watch": {
+    "start": "bai3.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JackKy17471/WD18303_Nodejs_MaiLeDuy.git"
+  },
+  "keywords": [
+    "Nodejs"
+  ],
+  "author": "duymlpc05755",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JackKy17471/WD18303_Nodejs_MaiLeDuy/issues"
+  },
+  "homepage": "https://github.com/JackKy17471/WD18303_Nodejs_MaiLeDuy#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.3",
+    "npm-watch": "^0.11.0"
+  }
+}
