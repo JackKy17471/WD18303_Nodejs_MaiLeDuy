@@ -1,0 +1,40 @@
+
+           <%- include('header');%>
+           
+        
+        <main>
+
+     
+     
+            <!-- shop.ejs -->
+
+  
+
+            <div class="container mt-2">
+                <div class="row">   
+                  <% for (let product of products) { %>
+                    <div class="col-12 col-md-6 col-gl-4 col-xl-3">
+                      <div class="card mb-4">
+                        <a href="/product/<%= product.id %>">
+                          <img src="/images/<%= product.imageURL %>" class="card-img-top" alt="...">
+                        </a>
+                        <div class="card-body">
+                          <h5 class="card-title">
+                            <a href="/product/<%= product.id %>"><%= product.title %></a>
+                          </h5>
+                          <p class="card-text"><%= product.price %></p>
+                          <p class="card-text"><%= product.description %></p>
+                          <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                      </div>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+              
+            
+            
+
+           <!-- .py-5>.container>.row>.col-12.col-md-6.col-lg-4.col-xl-3>.card.mb-4>img+.card-body>.cart-title+card-text>a.btn.btn-primary -->
+        </main>
+       <%- include('footer');%>
