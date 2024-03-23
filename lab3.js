@@ -26,23 +26,27 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "-" + file.originalname);
   },
 });
-const upload = multer({ storage: storage });
-
-
+const upload = multer({
+  storage: storage,
+}).single("images");
 
 /*-----bai1-2--- */
-// app.get("/", (req, res) => {
-//   let sql = `SELECT * FROM products `;
-//   db.query(sql, function (err, products) {
-//     if (err) throw err;
-//     res.render("shop.ejs", { products: products });
-//   });
-// })
+app.get("/shop", (req, res) => {
+  let sql = `SELECT * FROM products `;
+  let sqlCategories = `SELECT * FROM categories`;
 
+  db.query(sqlCategories, function (errCategories, categories) {
+    if (errCategories) {
+      console.error("Error fetching categories:", errCategories);
+      return res.status(500).send("Error fetching categories");
+    }
 
-
-
-
+    db.query(sql, function (err, products) {
+      if (err) throw err;
+      res.render("shop.ejs", { products: products, categories: categories });
+    });
+  });
+});
 
 // Route GET để hiển thị chi tiết sản phẩm
 app.get("/product/:productId", (req, res) => {
@@ -66,11 +70,7 @@ app.get("/product/:productId", (req, res) => {
   });
 });
 
-
-
-
 /*-----bai1-2--- */
-
 
 // /*-----trang home--- */
 app.get("/", (req, res) => {
@@ -106,15 +106,13 @@ app.get("/", (req, res) => {
 });
 // /*-----trang home--- */
 
-
-
 /*-----bai3--- */
 //sản phẩm theo loại
 app.get("/shop/:cateId", (req, res) => {
   let cateId = req.params.cateId;
   let sqlProducts = `SELECT * FROM products WHERE categories_id=${cateId}`;
   let sqlCategories = `SELECT * FROM categories`;
-  
+
   // Thực thi câu lệnh SQL cho sản phẩm
   db.query(sqlProducts, function (errProducts, products) {
     if (errProducts) {
@@ -131,9 +129,9 @@ app.get("/shop/:cateId", (req, res) => {
 
       // Đảm bảo rằng categories được trả về trước products
       console.log(categories, products);
-      
+
       // Trả về dữ liệu đến view
-      res.render('shop.ejs', { categories: categories, products: products });
+      res.render("shop.ejs", { categories: categories, products: products });
     });
   });
 });
@@ -142,36 +140,50 @@ app.get("/shop/:cateId", (req, res) => {
 
 /*-----bai4--- */
 // Route GET để hiển thị trang thêm sản phẩm
+
 app.get("/addnew", (req, res) => {
-  let sql = `SELECT * FROM categories`; // Truy vấn để lấy danh sách các danh mục
-  db.query(sql, function (err, categories) {
-    if (err) throw err;
-    res.render("addnew.ejs", { categories: categories }); // Truyền danh sách các danh mục vào biểu mẫu
+  let sqlCategories = `SELECT * FROM categories`;
+  db.query(sqlCategories, function (errCategories, categories) {
+    if (errCategories) {
+      // Xử lý lỗi nếu có
+      throw errCategories;
+    }
+    res.render("addnew.ejs", { categories: categories });
   });
 });
 
-
-
 // Route POST để xử lý yêu cầu thêm sản phẩm mới
-app.post('/addnew', upload.single('images'), (req, res) => {
-  const file = req.file
-  let name = req.body.name;
-  let price = req.body.price;
-  let short_description = req.body.short_description;
-  let images = file.filename;
-  product = {
-    name: name,
-    price: price,
-    short_description: short_description,
-    images: images,
-  }
-  db.query('insert into products SET ?', product, function (err, data) {
-    if (err) throw err;
-    res.redirect('/shop');
-  })
+app.post("/addnew", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      throw err;
+    }
+    // Lấy dữ liệu từ biểu mẫu
+    const name = req.body.name;
+    const short_description = req.body.short_description;
+    const images = req.file.filename;
+    const content = req.body.content;
+    const price = req.body.price;
+    const sale_price = req.body.saleprice;
+    const category = req.body.category;
+
+    // Chèn dữ liệu vào cơ sở dữ liệu MySQL
+    const sql =
+      "INSERT INTO products (name, short_description, images, content, price, sale_price, categories_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    db.query(
+      sql,
+      [name, short_description, images, content,price, sale_price,  category],
+      (err, result) => {
+        if (err) {
+          throw err;
+        }
+        console.log("Data inserted into MySQL database");
+        res.redirect("/shop");
+      }
+    );
+  });
 });
 /*-----bai4--- */
-
 
 /*-----bai5--- */
 
@@ -185,7 +197,6 @@ app.post("/product/delete/:productId", (req, res) => {
     res.redirect("/shop"); // Chuyển hướng người dùng đến trang shop sau khi xóa sản phẩm
   });
 });
-
 
 app.get("/product-edit", (req, res) => {
   let sql = `SELECT * FROM products `;
@@ -218,16 +229,18 @@ app.post("/products/edit/:productId", (req, res) => {
   const productId = req.params.productId;
   const { name, price, short_description, images } = req.body;
   let sql = `UPDATE products SET name = ?, price = ?, short_description = ?, images = ? WHERE id = ?`;
-  db.query(sql, [name, price, short_description, images, productId], function (err, result) {
-    if (err) throw err;
-    console.log("1 record updated");
-    res.redirect("products");
-  });
+  db.query(
+    sql,
+    [name, price, short_description, images, productId],
+    function (err, result) {
+      if (err) throw err;
+      console.log("1 record updated");
+      res.redirect("products");
+    }
+  );
 });
 
-
 /*-----bai5--- */
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://127.0.0.1:${port}`);

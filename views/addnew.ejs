@@ -10,25 +10,38 @@
 
           </div>
           <div class="mb-3">
+            <label for="short_description" class="form-label">mo ta</label>
+            <input type="text" class="form-control" name="short_description" id="short_description">
+          </div>
+          <div class="mb-3">
+            <label for="images" class="form-label">hinh anh</label>
+            <input type="file" class="form-control" name="images" id="image">
+          </div>
+          <div class="mb-3">
+
+            <label for="content" class="form-label">noi dung</label>
+            <input type="text" class="form-control" name="content" id="content">
+          </div>
+        
+          <div class="mb-3">
             <label for="price" class="form-label">gia</label>
             <input type="number" class="form-control" name="price" id="price">
           </div>
           <div class="mb-3">
-            <label for="category">Category:</label>
-            <select id="category" name="categoryId">
-                <% categories.forEach(function(category) { %>
-                    <option value="<%= category.id %>"><%= category.name %></option>
-                <% }) %>
-            </select>
+            <label for="sale_price" class="form-label">gia giam</label>
+            <input type="number" class="form-control" name="sale_price" id="sale_price">
           </div>
-          <div class="mb-3">
-              <label for="short_description" class="form-label">mo ta</label>
-              <input type="text" class="form-control" name="short_description" id="short_description">
-            </div>
-            <div class="mb-3">
-              <label for="image" class="form-label">hinh anh</label>
-              <input type="file" class="form-control" name="image" id="image">
-            </div>
+         <div class="mb-3">
+                    <label for="category" class="form-label">Loại</label>
+                    <select class="form-control" name="category">
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category.id %>"><%= category.name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                
+         
+           
           
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
