@@ -1,0 +1,19 @@
+<%- include('header');%>
+<%- include('nav');%>
+<main>
+    <div class="container">
+        <h1> chao mung ban ghe tham web site</h1>
+        <% if(kindOfDay=='Chủ Nhật'|| kindOfDay=='thứ 7'){ %>
+            <h2>hom nay la cuoi tuan</h2>
+            <% }else {%>
+                <h2>hom nay la <%= kindOfDay %></h2>
+                <% }%>
+    </div>
+
+</main>
+          
+           
+            
+ <%- include('footer');%>           
+
+       

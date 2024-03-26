@@ -1,0 +1,39 @@
+<%- include('header');%>
+<%- include('nav');%>
+
+
+  <main>
+    <div class="container mt-2">
+      <div class="row">
+        <% for (let product of products) { %>
+          <div class="col-12 col-md-6 col-gl-4 col-xl-3">
+            <div class="card mb-4">
+              <a href="/product/<%= product.id %>">
+                <img src="/images/<%= product.images %>" class="card-img-top" alt="...">
+              </a>
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="/product/<%= product.id %>">
+                    <%= product.name %>
+                  </a>
+                </h5>
+                <p class="card-text">
+                  <%= product.price %>
+                </p>
+                <p class="card-text">
+                  <%= product.short_description %>
+                </p>
+                <a href="/product/delete/<%= product.id %>"
+                  onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+              </div>
+            </div>
+          </div>
+          <% } %>
+      </div>
+    </div>
+
+
+
+    <!-- .py-5>.container>.row>.col-12.col-md-6.col-lg-4.col-xl-3>.card.mb-4>img+.card-body>.cart-title+card-text>a.btn.btn-primary -->
+  </main>
+  <%- include('footer');%>

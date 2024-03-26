@@ -1,0 +1,38 @@
+<%- include('header');%>
+<%- include('nav');%>
+
+
+  <main>
+    <div class="container mt-2">
+      <div class="container mt-2">
+        <div class="row">
+          <% for (let products of product) { %>
+            <div class="col-12 col-md-6 col-gl-4 col-xl-3">
+              <div class="card mb-4">
+                <a href="<%= products.id %>">
+                  <img src="images/<%= products.images%>.jpg" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <a href="<%= products.id %>">
+                      <%= products.name %>
+                    </a>
+                  </h5>
+                  <p class="card-text">
+                    <%= products.price %>
+                  </p>
+                  <p class="card-text">
+                    <%= products.short_description %>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <% } %>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- .py-5>.container>.row>.col-12.col-md-6.col-lg-4.col-xl-3>.card.mb-4>img+.card-body>.cart-title+card-text>a.btn.btn-primary -->
+  </main>
+  <%- include('footer');%>

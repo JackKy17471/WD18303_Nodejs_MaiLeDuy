@@ -1,0 +1,27 @@
+<%- include('header');%>
+<%- include('nav');%>
+
+
+      <div class="container py-5">
+        <form class="product-form" action="/admin/add-product" method="post" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="name" class="form-label">Ten san pham</label>
+            <input type="text" class="form-control" name="name" id="name">
+          </div>
+          <div class="mb-3">
+            <label for="short_description" class="form-label">mo ta</label>
+            <input type="text" class="form-control" name="short_description" id="short_description">
+          </div>
+          <div class="mb-3">
+            <label for="images" class="form-label">hinh anh</label>
+            <input type="file" class="form-control" name="images" id="images">
+          </div>
+          <div class="mb-3">
+            <label for="price" class="form-label">gia</label>
+            <input type="number" class="form-control" name="price" id="price">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+
+      <%- include('footer');%>
